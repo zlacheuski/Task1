@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/round_corner_layout_bg"
+        android:elevation="3dp"
+        android:minWidth="256dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/baloo_bold"
+            android:text="@string/event_name_msg"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvEventMsg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:fontFamily="@font/baloo_regular"
+            android:textAlignment="textStart"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvEvent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="event" />
+
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/baloo_bold"
+            android:text="@string/start_msg"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEvent" />
+
+        <TextView
+            android:id="@+id/tvStartDateMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/baloo_regular"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/tvStartDate"
+            app:layout_constraintTop_toBottomOf="@id/tvEventMsg"
+            tools:text="start" />
+
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/baloo_bold"
+            android:text="@string/end_msg"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStartDate" />
+
+        <TextView
+            android:id="@+id/tvEndDateMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/baloo_regular"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/tvStartDate"
+            app:layout_constraintTop_toBottomOf="@id/tvStartDate"
+            tools:text="end" />
+
+        <TextView
+            android:id="@+id/tvSenderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/baloo_bold"
+            android:text="@string/sender_msg"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEndDate" />
+
+        <TextView
+            android:id="@+id/tvSenderNameMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/baloo_regular"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/tvSenderName"
+            app:layout_constraintTop_toBottomOf="@id/tvEndDateMsg"
+            tools:text="sender" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

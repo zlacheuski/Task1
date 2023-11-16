@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/round_corner_layout_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvErrorMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/error_weather_list_msg"
+        android:fontFamily="@font/baloo_bold"
+        android:textAlignment="center"
+        android:lineSpacingMultiplier="0.75"
+        android:paddingTop="16dp"
+        android:paddingHorizontal="12dp"/>
+
+    <ImageView
+        android:id="@+id/ivErrorMsg"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/ic_error"
+        android:backgroundTint="@color/dark_blue"
+        android:padding="8dp"
+        tools:ignore="ContentDescription"/>
+</LinearLayout>
