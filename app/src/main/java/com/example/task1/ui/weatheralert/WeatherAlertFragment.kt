@@ -1,21 +1,21 @@
 package com.example.task1.ui.weatheralert
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.task1.data.repository.Resource
 import com.example.task1.databinding.FragmentWeatherAlertBinding
-import com.example.task1.tools.extensions.hide
-import com.example.task1.tools.extensions.show
+import com.example.task1.tools.cache.MemoryCacheImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WeatherAlertFragment : Fragment() {
@@ -24,6 +24,8 @@ class WeatherAlertFragment : Fragment() {
     private lateinit var adapter: WeatherAlertAdapter
     private val viewModel: WeatherAlertViewModel by viewModels()
 
+    @Inject
+    lateinit var imageCache: MemoryCacheImpl
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,22 +42,21 @@ class WeatherAlertFragment : Fragment() {
                 with(binding) {
                     when (it) {
                         is Resource.Success -> {
-                            progress.hide()
-                            errorLayout.root.hide()
-                            adapter.addData(viewModel.getMappedAlertsList(it.data).weatherAlertList)
+                            progress.isVisible = false
+                            errorLayout.root.isVisible = false
+                            adapter.submitList(viewModel.getMappedAlertsList(it.data).weatherAlertList)
                         }
                         is Resource.Progress -> {
-                            progress.show()
-                            errorLayout.root.hide()
+                            progress.isVisible = true
+                            errorLayout.root.isVisible = false
                         }
                         is Resource.Error -> {
-                            progress.hide()
-                            errorLayout.root.show()
+                            progress.isVisible = false
+                            errorLayout.root.isVisible = true
                         }
                         is Resource.Empty -> {
-                            progress.hide()
-                            errorLayout.root.show()
-                            Log.d("****", it.status)
+                            progress.isVisible = false
+                            errorLayout.root.isVisible = true
                         }
                     }
                 }

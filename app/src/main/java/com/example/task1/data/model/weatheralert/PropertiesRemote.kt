@@ -2,7 +2,7 @@ package com.example.task1.data.model.weatheralert
 
 import com.google.gson.annotations.SerializedName
 
-data class Properties(
+data class PropertiesRemote(
     @SerializedName("@id")
     val annotatedId: String,
     @SerializedName("@type")
@@ -16,13 +16,13 @@ data class Properties(
     val ends: String?,
     val event: String,
     val expires: String,
-    val geocode: Geocode,
+    val geocode: GeocodeRemote,
     val headline: String,
     val id: String,
     val instruction: String,
     val messageType: String,
     val onset: String,
-    val parameters: Parameters,
+    val parameters: ParametersRemote,
     val references: List<Any>,
     val response: String,
     val sender: String,

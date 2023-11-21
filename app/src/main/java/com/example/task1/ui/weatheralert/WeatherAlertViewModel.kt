@@ -3,7 +3,7 @@ package com.example.task1.ui.weatheralert
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task1.data.mapper.WeatherAlertMapper
-import com.example.task1.data.model.weatheralert.WeatherAlert
+import com.example.task1.data.model.weatheralert.WeatherAlertRemote
 import com.example.task1.data.repository.Resource
 import com.example.task1.data.repository.weatheralert.WeatherAlertRepositoryImpl
 import com.example.task1.ui.weatheralert.model.WeatherAlertListModel
@@ -19,8 +19,8 @@ class WeatherAlertViewModel @Inject constructor(private val weatherAlertReposito
     ViewModel() {
 
     private val _response =
-        MutableStateFlow<Resource<WeatherAlert>>(Resource.Progress())
-    val response: StateFlow<Resource<WeatherAlert>>
+        MutableStateFlow<Resource<WeatherAlertRemote>>(Resource.Progress())
+    val response: StateFlow<Resource<WeatherAlertRemote>>
         get() = _response
 
     init {
@@ -35,7 +35,7 @@ class WeatherAlertViewModel @Inject constructor(private val weatherAlertReposito
         }
     }
 
-    fun getMappedAlertsList(weatherAlert: WeatherAlert): WeatherAlertListModel {
+    fun getMappedAlertsList(weatherAlert: WeatherAlertRemote): WeatherAlertListModel {
         return WeatherAlertMapper.mapWeatherAlertToModel(weatherAlert)
     }
 }

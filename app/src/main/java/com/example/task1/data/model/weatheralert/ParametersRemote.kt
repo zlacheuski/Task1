@@ -2,7 +2,7 @@ package com.example.task1.data.model.weatheralert
 
 import com.google.gson.annotations.SerializedName
 
-data class Parameters(
+data class ParametersRemote(
     val AWIPSidentifier: List<String>,
     val BLOCKCHANNEL: List<String>,
     @SerializedName("EAS-ORG")

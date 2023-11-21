@@ -2,6 +2,7 @@ package com.example.task1.di
 
 import com.example.task1.BuildConfig
 import com.example.task1.data.api.WeatherAlertApi
+import com.example.task1.tools.cache.MemoryCacheImpl
 import com.example.task1.tools.Constants.BASE_WEATHER_API_URL
 import dagger.Module
 import dagger.Provides
@@ -47,4 +48,8 @@ class WeatherAppModule {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
             .create(WeatherAlertApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideImageCacheHandler(): MemoryCacheImpl = MemoryCacheImpl.getInstance()
 }
