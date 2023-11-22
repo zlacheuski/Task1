@@ -21,14 +21,15 @@ fun LocalDateTime?.getFormattedDate(): String {
 }
 
 fun getDuration(startDate: LocalDateTime?, endDate: LocalDateTime?): String {
-    return try {
-        val duration = Duration.between(startDate, endDate)
-        duration.run {
-            val hours = toHours()
-            val minutes = toMinutes() % 60
-            String.format("dur. %02dH %02dm", hours, minutes)
+    return when {
+        startDate == null || endDate == null -> "(dur. $UNKNOWN_STATUS)"
+        else -> {
+            val duration = Duration.between(startDate, endDate)
+            duration.run {
+                val hours = toHours()
+                val minutes = toMinutes() % 60
+                String.format("dur. %02dH %02dm", hours, minutes)
+            }
         }
-    } catch (e: Exception) {
-        "(dur. $UNKNOWN_STATUS)"
     }
 }

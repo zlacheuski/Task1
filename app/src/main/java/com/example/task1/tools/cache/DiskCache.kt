@@ -4,6 +4,6 @@ import android.graphics.Bitmap
 
 interface DiskCache {
 
-    fun put(bitmap: Bitmap)
-    fun get(key: String): Bitmap
+    fun put(key: String, bitmap: Bitmap)
+    fun getBitmap(key: String): Bitmap?
 }

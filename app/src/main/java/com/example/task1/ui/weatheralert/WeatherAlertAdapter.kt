@@ -5,22 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import com.example.task1.databinding.ItemWeatherAlertBinding
-import com.example.task1.tools.Constants.IMAGE_CORNER_RADIUS
-import com.example.task1.tools.Constants.PICTURE_LINK
-import com.example.task1.tools.extensions.createCircularProgressBar
-import com.example.task1.ui.weatheralert.model.WeatherAlertModel
+import com.example.task1.domain.model.WeatherAlertModel
 
 
-class WeatherAlertAdapter :
+class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
     ListAdapter<WeatherAlertModel, WeatherAlertAdapter.WeatherAlertViewHolder>(diffCallback) {
-
-    private lateinit var itemBinding: ItemWeatherAlertBinding
 
     companion object {
         val diffCallback = object : DiffUtil.ItemCallback<WeatherAlertModel>() {
@@ -36,29 +26,25 @@ class WeatherAlertAdapter :
                 oldItem: WeatherAlertModel,
                 newItem: WeatherAlertModel
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherAlertViewHolder {
-        initViewBinding(parent)
+        val itemBinding =
+            ItemWeatherAlertBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return WeatherAlertViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: WeatherAlertViewHolder, position: Int) {
-        holder.initViewHolder(getItem(position))
-    }
+    override fun onBindViewHolder(holder: WeatherAlertViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
-    private fun initViewBinding(parent: ViewGroup) {
-        itemBinding =
-            ItemWeatherAlertBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    }
 
     inner class WeatherAlertViewHolder(private val itemViewBinding: ItemWeatherAlertBinding) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
 
-        fun initViewHolder(
+        fun bind(
             weatherAlert: WeatherAlertModel
         ) {
             with(itemViewBinding) {
@@ -67,18 +53,13 @@ class WeatherAlertAdapter :
                 tvEndDateMsg.text = weatherAlert.endDate
                 tvDuration.text = weatherAlert.duration
                 tvSenderNameMsg.text = weatherAlert.senderName
+                // This is caching method
+                if (weatherAlert.image == null) {
+                    onBindWithoutImage(weatherAlert)
+                } else {
+                    ivPicture.setImageBitmap(weatherAlert.image)
+                }
             }
-            showImage(weatherAlert.id)
-        }
-
-        private fun showImage(id: String) {
-            Glide
-                .with(itemViewBinding.root)
-                .load(PICTURE_LINK)
-                .signature(ObjectKey(id))
-                .placeholder(itemBinding.root.context.createCircularProgressBar())
-                .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(IMAGE_CORNER_RADIUS)))
-                .into(itemViewBinding.ivPicture)
         }
     }
 }

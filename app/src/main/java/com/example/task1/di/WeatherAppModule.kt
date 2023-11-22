@@ -1,9 +1,13 @@
 package com.example.task1.di
 
+import android.content.Context
 import com.example.task1.BuildConfig
 import com.example.task1.data.api.WeatherAlertApi
-import com.example.task1.tools.cache.MemoryCacheImpl
+import com.example.task1.tools.cache.CacheImpl
 import com.example.task1.tools.Constants.BASE_WEATHER_API_URL
+import com.example.task1.tools.cache.DiskCache
+import com.example.task1.tools.cache.DiskCacheImpl
+import com.example.task1.tools.cache.Cache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 
 @Module
@@ -51,5 +56,9 @@ class WeatherAppModule {
 
     @Singleton
     @Provides
-    fun provideImageCacheHandler(): MemoryCacheImpl = MemoryCacheImpl.getInstance()
+    fun provideDiskCache(@ApplicationContext context: Context): DiskCache = DiskCacheImpl(context)
+
+    @Singleton
+    @Provides
+    fun provideMemoryCache(diskCache: DiskCache): Cache = CacheImpl(diskCache)
 }
