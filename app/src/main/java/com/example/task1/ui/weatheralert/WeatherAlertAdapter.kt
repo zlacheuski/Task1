@@ -26,7 +26,7 @@ class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
                 oldItem: WeatherAlertModel,
                 newItem: WeatherAlertModel
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }
@@ -47,17 +47,16 @@ class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
         fun bind(
             weatherAlert: WeatherAlertModel
         ) {
+            // If we need to provide persistence than we could use only Diskcache
             with(itemViewBinding) {
                 tvEventMsg.text = weatherAlert.event
                 tvStartDateMsg.text = weatherAlert.startDate
                 tvEndDateMsg.text = weatherAlert.endDate
                 tvDuration.text = weatherAlert.duration
                 tvSenderNameMsg.text = weatherAlert.senderName
-                // This is caching method
+                ivPicture.setImageBitmap(weatherAlert.image)
                 if (weatherAlert.image == null) {
                     onBindWithoutImage(weatherAlert)
-                } else {
-                    ivPicture.setImageBitmap(weatherAlert.image)
                 }
             }
         }

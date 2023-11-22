@@ -28,7 +28,9 @@ class DiskCacheImpl @Inject constructor(@ApplicationContext val context: Context
     override fun getBitmap(key: String): Bitmap? {
         val file = File(getFileAbsolutePath(key))
         return when {
-            file.exists() -> BitmapFactory.decodeFile(file.absolutePath)
+            file.exists() -> {
+                BitmapFactory.decodeFile(file.absolutePath)
+            }
             else -> null
         }
     }

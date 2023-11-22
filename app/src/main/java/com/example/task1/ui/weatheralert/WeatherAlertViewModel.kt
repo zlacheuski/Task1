@@ -1,13 +1,10 @@
 package com.example.task1.ui.weatheralert
 
-import android.app.Application
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task1.data.repository.weatheralert.WeatherAlertRepositoryImpl
 import com.example.task1.domain.model.WeatherAlertModel
-import com.example.task1.tools.Constants
 import com.example.task1.tools.cache.Cache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -16,12 +13,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
 class WeatherAlertViewModel @Inject constructor(
-    val app: Application,
     private val weatherAlertRepository: WeatherAlertRepositoryImpl,
     private val cache: Cache
 ) : ViewModel() {
@@ -57,9 +52,7 @@ class WeatherAlertViewModel @Inject constructor(
     fun fetchBitmapFromUrl(weatherAlertModel: WeatherAlertModel) {
         viewModelScope.launch(exceptionHandler) {
             withContext(Dispatchers.IO) {
-                val bitmap = BitmapFactory.decodeStream(
-                    URL(Constants.PICTURE_LINK).openConnection().getInputStream()
-                )
+                val bitmap = weatherAlertRepository.getBitmapFromUri()
                 bitmap?.let {
                     cache.put(weatherAlertModel.id, it)
                 }

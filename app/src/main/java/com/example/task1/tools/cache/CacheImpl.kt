@@ -18,11 +18,11 @@ class CacheImpl @Inject constructor(private var diskCache: DiskCache) : Cache {
         }
 
     override fun put(key: String, bitmap: Bitmap) {
-        get(key)?.let {
-            if (canCache(it)) {
-                memoryCache.put(key, it)
+        if(get(key)==null){
+            if (canCache(bitmap)) {
+                memoryCache.put(key, bitmap)
             } else {
-                diskCache.put(key, it)
+                diskCache.put(key, bitmap)
             }
         }
     }
