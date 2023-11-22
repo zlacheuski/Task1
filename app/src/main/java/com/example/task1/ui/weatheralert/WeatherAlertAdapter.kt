@@ -5,65 +5,59 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.task1.data.model.weatheralert.WeatherAlert
 import com.example.task1.databinding.ItemWeatherAlertBinding
-import com.example.task1.ui.weatheralert.model.WeatherAlertModel
+import com.example.task1.domain.model.WeatherAlertModel
 
-class WeatherAlertAdapter :
-    ListAdapter<WeatherAlert, WeatherAlertAdapter.WeatherAlertViewHolder>(diffCallback) {
 
-    lateinit var itemBinding: ItemWeatherAlertBinding
-    private val weatherAlertList: MutableList<WeatherAlertModel> = mutableListOf()
+class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
+    ListAdapter<WeatherAlertModel, WeatherAlertAdapter.WeatherAlertViewHolder>(diffCallback) {
 
     companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<WeatherAlert>() {
+        val diffCallback = object : DiffUtil.ItemCallback<WeatherAlertModel>() {
 
-            override fun areItemsTheSame(oldItem: WeatherAlert, newItem: WeatherAlert): Boolean {
-                return oldItem === newItem
+            override fun areItemsTheSame(
+                oldItem: WeatherAlertModel,
+                newItem: WeatherAlertModel
+            ): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: WeatherAlert, newItem: WeatherAlert): Boolean {
+            override fun areContentsTheSame(
+                oldItem: WeatherAlertModel,
+                newItem: WeatherAlertModel
+            ): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherAlertViewHolder {
-        initViewBinding(parent)
+        val itemBinding =
+            ItemWeatherAlertBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return WeatherAlertViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: WeatherAlertViewHolder, position: Int) {
-        holder.initViewHolder(weatherAlertList[position])
-    }
-
-    override fun getItemCount() = weatherAlertList.size
+    override fun onBindViewHolder(holder: WeatherAlertViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
 
-    fun addData(weatherAlertList: List<WeatherAlertModel>) {
-        this.weatherAlertList.apply {
-            clear()
-            addAll(weatherAlertList)
-        }
-        notifyDataSetChanged()
-    }
+    inner class WeatherAlertViewHolder(private val itemViewBinding: ItemWeatherAlertBinding) :
+        RecyclerView.ViewHolder(itemViewBinding.root) {
 
-    private fun initViewBinding(parent: ViewGroup) {
-        itemBinding =
-            ItemWeatherAlertBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    }
-
-    inner class WeatherAlertViewHolder(val itemViewBinding: ItemWeatherAlertBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
-
-        fun initViewHolder(
+        fun bind(
             weatherAlert: WeatherAlertModel
         ) {
+            // If we need to provide persistence than we could use only Diskcache
             with(itemViewBinding) {
                 tvEventMsg.text = weatherAlert.event
-                tvStartDateMsg.text = weatherAlert.effective
-                tvEndDateMsg.text = weatherAlert.ends
+                tvStartDateMsg.text = weatherAlert.startDate
+                tvEndDateMsg.text = weatherAlert.endDate
+                tvDuration.text = weatherAlert.duration
                 tvSenderNameMsg.text = weatherAlert.senderName
+                ivPicture.setImageBitmap(weatherAlert.image)
+                if (weatherAlert.image == null) {
+                    onBindWithoutImage(weatherAlert)
+                }
             }
         }
     }

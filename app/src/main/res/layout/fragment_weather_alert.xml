@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/dark_blue"
     tools:context=".ui.weatheralert.WeatherAlertFragment">
 
     <include
@@ -18,6 +19,8 @@
         android:id="@+id/rvAlerts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_weather_alert"
         tools:visibility="visible" />
 
@@ -27,6 +30,8 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
         android:padding="10dp"
         android:progressBackgroundTint="@color/dark_blue" />
 </FrameLayout>

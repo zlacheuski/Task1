@@ -1,22 +1,27 @@
 package com.example.task1.data.mapper
 
-import com.example.task1.data.model.weatheralert.WeatherAlert
-import com.example.task1.ui.weatheralert.model.WeatherAlertModel
-import com.example.task1.ui.weatheralert.model.WeatherAlertListModel
+import com.example.task1.data.model.weatheralert.WeatherAlertRemote
+import com.example.task1.tools.extensions.formatDate
+import com.example.task1.domain.model.WeatherAlertModel
+import com.example.task1.tools.cache.Cache
+import javax.inject.Inject
 
-object WeatherAlertMapper {
+class WeatherAlertMapper @Inject constructor(private val cache: Cache) {
 
-    fun mapWeatherAlertToModel(weatherAlert: WeatherAlert): WeatherAlertListModel {
-        return WeatherAlertListModel(weatherAlert.features.map { features ->
-            features.properties.let { properties ->
+    fun mapWeatherAlertToModel(
+        weatherAlert: WeatherAlertRemote
+    ): List<WeatherAlertModel> {
+        return weatherAlert.features
+            .map { it.properties }
+            .map { properties ->
                 WeatherAlertModel(
                     id = properties.id,
                     event = properties.event,
-                    effective = properties.effective,
-                    ends = properties.ends?: "Unknown",
-                    senderName = properties.senderName
+                    effective = properties.effective.formatDate(),
+                    ends = properties.ends?.formatDate(),
+                    senderName = properties.senderName,
+                    image = cache.get(properties.id)
                 )
             }
-        })
     }
 }
