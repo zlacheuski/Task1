@@ -5,11 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.example.task1.databinding.ItemWeatherAlertBinding
 import com.example.task1.domain.model.WeatherAlertModel
+import com.example.task1.tools.Constants.IMAGE_CORNER_RADIUS
+import com.example.task1.tools.Constants.PICTURE_LINK
+import com.example.task1.tools.extensions.createCircularProgressBar
 
 
-class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
+class WeatherAlertAdapter :
     ListAdapter<WeatherAlertModel, WeatherAlertAdapter.WeatherAlertViewHolder>(diffCallback) {
 
     companion object {
@@ -47,7 +55,6 @@ class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
         fun bind(
             weatherAlert: WeatherAlertModel
         ) {
-            // If we need to provide persistence than we could use only Diskcache
             with(itemViewBinding) {
                 tvEventMsg.text = weatherAlert.event
                 tvStartDateMsg.text = weatherAlert.startDate
@@ -55,10 +62,18 @@ class WeatherAlertAdapter(val onBindWithoutImage: (WeatherAlertModel) -> Unit) :
                 tvDuration.text = weatherAlert.duration
                 tvSenderNameMsg.text = weatherAlert.senderName
                 ivPicture.setImageBitmap(weatherAlert.image)
-                if (weatherAlert.image == null) {
-                    onBindWithoutImage(weatherAlert)
-                }
+                showImage(weatherAlert.id)
             }
+        }
+
+        private fun showImage(id: String) {
+            Glide
+                .with(itemViewBinding.root)
+                .load(PICTURE_LINK)
+                .signature(ObjectKey(id))
+                .placeholder(itemViewBinding.root.context.createCircularProgressBar())
+                .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(IMAGE_CORNER_RADIUS)))
+                .into(itemViewBinding.ivPicture)
         }
     }
 }

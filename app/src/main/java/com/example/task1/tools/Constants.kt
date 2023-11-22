@@ -6,5 +6,5 @@ object Constants {
     const val PICTURE_LINK = "https://picsum.photos/1000"
     const val UNKNOWN_STATUS = "unknown"
     const val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm"
-    const val BYTES_DIVIDER = 1024
+    const val IMAGE_CORNER_RADIUS = 16
 }

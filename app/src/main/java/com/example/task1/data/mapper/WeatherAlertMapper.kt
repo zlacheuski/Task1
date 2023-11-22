@@ -1,12 +1,11 @@
 package com.example.task1.data.mapper
 
 import com.example.task1.data.model.weatheralert.WeatherAlertRemote
-import com.example.task1.tools.extensions.formatDate
 import com.example.task1.domain.model.WeatherAlertModel
-import com.example.task1.tools.cache.Cache
+import com.example.task1.tools.extensions.formatDate
 import javax.inject.Inject
 
-class WeatherAlertMapper @Inject constructor(private val cache: Cache) {
+class WeatherAlertMapper @Inject constructor() {
 
     fun mapWeatherAlertToModel(
         weatherAlert: WeatherAlertRemote
@@ -19,8 +18,7 @@ class WeatherAlertMapper @Inject constructor(private val cache: Cache) {
                     event = properties.event,
                     effective = properties.effective.formatDate(),
                     ends = properties.ends?.formatDate(),
-                    senderName = properties.senderName,
-                    image = cache.get(properties.id)
+                    senderName = properties.senderName
                 )
             }
     }

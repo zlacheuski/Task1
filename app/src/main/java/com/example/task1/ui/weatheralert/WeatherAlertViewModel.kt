@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task1.data.repository.weatheralert.WeatherAlertRepositoryImpl
 import com.example.task1.domain.model.WeatherAlertModel
-import com.example.task1.tools.cache.Cache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherAlertViewModel @Inject constructor(
     private val weatherAlertRepository: WeatherAlertRepositoryImpl,
-    private val cache: Cache
 ) : ViewModel() {
 
     private val _weatherAlertList =
@@ -45,25 +43,6 @@ class WeatherAlertViewModel @Inject constructor(
         }.invokeOnCompletion {
             viewModelScope.launch {
                 _isProgressVisible.emit(false)
-            }
-        }
-    }
-
-    fun fetchBitmapFromUrl(weatherAlertModel: WeatherAlertModel) {
-        viewModelScope.launch(exceptionHandler) {
-            withContext(Dispatchers.IO) {
-                val bitmap = weatherAlertRepository.getBitmapFromUri()
-                bitmap?.let {
-                    cache.put(weatherAlertModel.id, it)
-                }
-                val newResp = _weatherAlertList.value.map {
-                    if (it.id == weatherAlertModel.id) {
-                        it.copy(image = bitmap)
-                    } else {
-                        it
-                    }
-                }
-                _weatherAlertList.emit(newResp)
             }
         }
     }

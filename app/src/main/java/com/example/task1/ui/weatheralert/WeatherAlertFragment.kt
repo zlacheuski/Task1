@@ -43,7 +43,7 @@ class WeatherAlertFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = WeatherAlertAdapter { viewModel.fetchBitmapFromUrl(it) }
+        adapter = WeatherAlertAdapter()
         binding.rvAlerts.adapter = adapter
     }
 }
